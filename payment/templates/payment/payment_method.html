@@ -1,0 +1,264 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Payment for the server service</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: rgba(34, 34, 34, 1);
+      margin: 0;
+      padding: 20px;
+    }
+    
+    h1 {
+      color: #ffffff;
+      text-align: center;
+    }
+    
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    
+    .card {
+      background-color: rgba(254, 211, 39, 1);
+      padding: 40px;
+      border-radius: 10px;
+      width: 450px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+      animation: slide-in 1s ease;
+    }
+    
+    .card-label {
+      color: rgba(254, 211, 39, 1);
+    }
+    
+    .card-logo {
+      display: inline-block;
+      width: 100px;
+      margin-bottom: 20px;
+    }
+    
+    .card-number {
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 30px;
+    }
+    
+    .card-details {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 30px;
+    }
+    
+    .card-expiry {
+      flex-basis: 60%;
+      margin-top: 10px;
+      font-size: 20px;
+    }
+    
+    .card-cvv {
+      flex-basis: 40%;
+      text-align: right;
+      margin-top: 10px;
+      font-size: 20px;
+    }
+    
+    .input-container {
+      width: 500px;
+      margin-bottom: 20px;
+      animation: fade-in 1s ease;
+    }
+    
+    .input-label {
+      color: rgba(254, 211, 39, 1);
+      margin-bottom: 5px;
+    }
+    
+    .input-field {
+      width: 100%;
+      padding: 10px;
+      border-radius: 3px;
+      border: 1px solid #ccc;
+    }
+    
+    .amount-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .amount-label {
+      color: #ffffff;
+      margin-right: 10px;
+    }
+    
+    .amount-value {
+      font-size: 24px;
+      font-weight: bold;
+      color: rgba(254, 211, 39, 1);
+    }
+    
+    .submit-container {
+      display: flex;
+      justify-content: center;
+    }
+    
+    .submit-button {
+      background-color: #fcb900;
+      color: #fff;
+      padding: 15px 40px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 18px;
+      transition: background-color 0.3s ease;
+      animation: pulse 1s infinite;
+    }
+    
+    .submit-button:hover {
+      background-color: #d39e00;
+    }
+    
+    .close-button {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 30px;
+      color: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+    }
+    
+    .close-button:hover {
+      color: rgba(255, 255, 255, 0.8);
+    }
+    
+    @keyframes slide-in {
+      0% {
+        opacity: 0;
+        transform: translateY(-50px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes fade-in {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+    
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Payment for the server service</h1>
+    <div class="card">
+      <img src="{% static 'img/logos/vizza.png' %}" class="card-logo">
+      <div class="card-number" id="card-number">
+        **** **** **** ****
+      </div>
+      <div class="card-details">
+        <div class="card-expiry" id="card-expiry">
+          MM/YY
+        </div>
+        <div class="card-cvv" id="card-cvv">
+          CVV
+        </div>
+      </div>
+    </div>
+    <br>
+    <form id="payment-form" action="{% url 'payment:payment_page' %}" method="POST">
+        {% csrf_token %}
+      <div class="input-container">
+        <label for="name" class="input-label">Name:</label>
+        <input type="text" id="name" class="input-field" name="name" required>
+      </div>
+
+      <div class="input-container">
+        <label for="email" class="input-label">Email:</label>
+        <input type="email" id="email" class="input-field" name="email" required>
+      </div>
+
+      <div class="input-container">
+        <label for="card" class="input-label">Credit card number:</label>
+        <input type="text" id="card" class="input-field" name="card" required maxlength="16" oninput="updateCardNumber(this.value)">
+      </div>
+
+      <div class="input-container">
+        <label for="expiry" class="input-label">Card validity period:</label>
+        <input type="text" id="expiry" class="input-field" name="expiry" required maxlength="4" oninput="updateCardExpiry(this.value)">
+      </div>
+
+      <div class="input-container">
+        <label for="cvv" class="input-label">CVV code:</label>
+        <input type="text" id="cvv" class="input-field" name="cvv" required maxlength="3" oninput="updateCardCVV(this.value)">
+      </div>
+
+      <div class="amount-container">
+        <span class="amount-label">Sum:</span>
+        <span class="amount-value" id="amount">{{ price }}$</span>
+      </div>
+
+      <div class="submit-container">
+        <input type="submit" class="submit-button" value="Оплатити">
+      </div>
+    </form>
+    <div class="close-button" onclick="goBack()">&#10006;</div>
+  </div>
+  <script>
+    function updateCardNumber(value) {
+      const cardNumberElement = document.getElementById("card-number");
+      const formattedNumber = formatCardNumber(value);
+      cardNumberElement.textContent = formattedNumber;
+    }
+
+    function updateCardExpiry(value) {
+      const cardExpiryElement = document.getElementById("card-expiry");
+      const formattedExpiry = formatCardExpiry(value);
+      cardExpiryElement.textContent = formattedExpiry;
+    }
+
+    function updateCardCVV(value) {
+      const cardCVVElement = document.getElementById("card-cvv");
+      cardCVVElement.textContent = value;
+    }
+
+    function formatCardNumber(value) {
+      const formattedValue = value.replace(/\s/g, "").replace(/(\d{4})/g, "$1 ");
+      return formattedValue.trim();
+    }
+
+    function formatCardExpiry(value) {
+      const formattedValue = value.replace(/(\d{2})(\d{0,2})/, "$1/$2");
+      return formattedValue.trim();
+    }
+
+    function goBack() {
+      window.history.back();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Rackhost Hosting & Business Theme</title>
+		<meta charset="utf-8" />
+		<meta content="rackhost, server, theme" name="keywords" />
+		<meta content="Rackhost hosting and business theme." name="description" />
+		<link rel="shortcut icon" href="favicon.ico" />
+		<link rel="icon" href="favicon.ico" type="image/x-icon" />
+		<link href="{% static 'css/rackhost.css' %}" rel="stylesheet" type="text/css" />
+		<script src="{% static 'js/jquery-1.7.2.min.js' %}" type="text/javascript"></script>
+		<script src="{% static 'js/rackhost.js' %}" type="text/javascript"></script>
+	</head>
+	<body>
+		<div class="siteWrapper">
+			<div class="siteHeaderShadow">
+			</div>
+			<div class="siteHeader">
+				<div class="center">
+					<a class="logo" href="{% url 'servers:redirect_to_main' %}"></a>
+					<ul class="navigation">
+						<li>
+							<a href="shared.html"><strong>Shared</strong> Hosting<br /><span>cPanel powered</span></a>
+						</li>
+						<li>
+							<a class="dropdown" href="virtual.html"><strong>Virtual</strong> Servers<br /><span>OpenVZ or Xen</span></a>
+						</li>
+						<li>
+							<a href="dedicated.html"><strong>Dedicated</strong> Servers<br /><span>cPanel or Unmanaged</span></a>
+						</li>
+						<li>
+							<a class="dropdown" href="about.html"><strong>About</strong> Rackhost<br /><span>Who We Are</span></a>
+						</li>
+						<li>
+							<a href="contact.html"><strong>Contact</strong> Us<br /><span>Custom Quotes</span></a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="contentHeader">
+				<div class="center">
+                        <h1>Client <span>Register</span></h1>
+					<ul>
+						<li><a class="iconSmallPhone" href="contact.html"><strong>USA</strong> 123.456.7891</a></li>
+						<li><a class="iconSmallChat" href="contact.html"><strong>Live</strong> Chat</a></li>
+						<li><a class="iconSmallEmail" href="contact.html"><strong>Email</strong> Support</a></li>
+						<li><a class="iconSmallClient" href="login.html"><strong>Client</strong> Login</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="contentWrapper">
+				<div class="outerShadow">
+				</div>
+				<div class="innerShadow">
+				</div>
+				<div class="center clearfix">
+					<div class="clearfix">
+					</div>
+					<form class="loginForm" method="post">
+                        {% csrf_token %}
+                        <div class="column">
+							<label for="login">Login</label>
+							<input id="login" name="username" type="text" />
+						</div>
+						<div>
+							<label>Email Address</label>
+							<input name="email" type="text" />
+						</div>
+						<div class="column">
+							<label for="password">Password</label>
+							<input id="password" name="password1" type="password" />
+						</div>
+                        <div class="column">
+							<label for="password">Password</label>
+							<input id="password" name="password2" type="password" />
+						</div>
+						<div class="column checkbox">
+							<input id="save" name="save" type="checkbox" /><label for="save">Remember me on this computer</label>
+						</div>
+                        {{ form.errors }}
+						<button class="colorButton">Register</button>
+						<div class="help">
+							<a href="contact.html">Forgot your password?</a>
+                            <a href="{% url 'form:login' %}">Log in</a>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="twitterWidget">
+				<div class="center">
+					<a class="profileLink" href=""></a><p>Loading<span>Retrieving latest tweet...</span></p>
+				</div>
+			</div>
+			<div class="siteFooter">
+				<div class="center clearfix">
+					<div class="column tiny">
+						<h5>Main <span>Navigation</span></h5>
+						<ul class="columnNavigation">
+							<li><a href="shared.html"><strong>Shared</strong> Hosting</a></li>
+							<li><a href="virtual.html"><strong>Virtual</strong> Servers</a></li>
+							<li><a href="dedicated.html"><strong>Dedicated</strong> Servers</a></li>
+							<li><a href="about.html"><strong>About</strong> Rackhost</a></li>
+							<li><a href="contact.html"><strong>Contact</strong> Us</a></li>
+						</ul>
+					</div>
+					<div class="column tiny">
+						<h5>Additional <span>Information</span></h5>
+						<ul class="columnNavigation">
+							<li><a href="terms.html"><strong>Site</strong> Map</a></li>
+							<li><a href="terms.html"><strong>Terms</strong> of Service</a></li>
+							<li><a href="terms.html"><strong>Privacy</strong> Policy</a></li>
+							<li><a href="terms.html"><strong>DMCA</strong> Policy</a></li>
+						</ul>
+					</div>
+					<div class="column tiny">
+						<h5>Support <span>Center</span></h5>
+						<ul class="columnNavigation">
+							<li><a class="iconSmallPhone" href="contact.html"><strong>USA</strong> 123.456.7891</a></li>
+							<li><a class="iconSmallChat" href="contact.html"><strong>Live</strong> Chat</a></li>
+							<li><a class="iconSmallEmail" href="contact.html"><strong>Email</strong> Support</a></li>
+							<li><a class="iconSmallClient" href="login.html"><strong>Client</strong> Login</a></li>
+						</ul>
+					</div>
+					<div class="column tiny last">
+						<h5>About <span>Rackhost</span></h5>
+						<p class="text">Rackhost provides enterprise hosting and server services at an amazing price. Don't see something that suits your needs? <a href="contact.html">Get a free custom quote</a> from one of our hosting experts.</p>
+					</div>
+				</div>
+			</div>
+			<div class="siteFooterBar">
+				<div class="center">
+					<a class="backToTop" href="#">Back to Top</a><p>Follow us on <a href="#">Twitter</a>, <a href="#">Facebook</a> or <a href="#">LinkedIn</a> to receive updates regarding network issues, discounts and more.<br />2012 &copy; Rackhost. All rights reserved. Design by <a href="http://serifly.com">Serifly</a>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
